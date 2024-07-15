@@ -86,3 +86,41 @@ public class Motorcycle : Vehicle
 }
 
 
+
+public override void DisplayDetails()
+{
+    base.DisplayDetails();
+    Console.WriteLine($"Engine Capacity: {EngineCapacity} cc, Fuel Type: {FuelType}, Has Fairing: {HasFairing}");
+}
+}
+
+public class RentalAgency
+{
+    private List<Vehicle> Fleet { get; set; }
+    public decimal TotalRevenue { get; private set; }
+
+    public RentalAgency()
+    {
+        Fleet = new List<Vehicle>();
+        TotalRevenue = 0;
+    }
+
+    public void AddVehicle(Vehicle vehicle)
+    {
+        Fleet.Add(vehicle);
+    }
+
+    public void RentVehicle(string model, int days)
+    {
+        Vehicle vehicle = Fleet.Find(v => v.Model == model);
+        if (vehicle != null)
+        {
+            TotalRevenue += vehicle.RentalPrice * days;
+            Fleet.Remove(vehicle);
+            Console.WriteLine($"Vehicle rented: {vehicle.Model} for {days} days. Total revenue: {TotalRevenue:C}");
+        }
+        else
+        {
+            Console.WriteLine("Vehicle not available.");
+        }
+    }
